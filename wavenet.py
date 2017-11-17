@@ -162,7 +162,7 @@ class Params():
 	def dump(self):
 		print( "params:")
 		for attr, value in self.__dict__.iteritems():
-			print "	{}: {}".format(attr, value)
+			print( "	{}: {}".format(attr, value))
 
 	def check(self):
 		base = Params()
@@ -627,13 +627,13 @@ class WaveNet():
 	def load(self, model_dir="./"):
 		filename = model_dir + "/wavenet.model"
 		if os.path.isfile(filename):
-			print "loading", filename, "..."
+			print( "loading", filename, "...")
 			serializers.load_hdf5(filename, self.chain)
 		else:
 			pass
 		filename = model_dir + "/wavenet.opt"
 		if os.path.isfile(filename):
-			print "loading", filename, "..."
+			print( "loading", filename, "...")
 			serializers.load_hdf5(filename, self.optimizer)
 		else:
 			pass
