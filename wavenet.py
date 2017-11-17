@@ -282,11 +282,11 @@ class DilatedConvolution1D(L.Convolution2D):
 		xp = cuda.get_array_module(x_batch_data)
 		if self.dilation == 1:
 			x = xp.empty((1, self.in_channels, 1, self.filter_width), dtype=xp.float32)
-			for n in xrange(self.filter_width):
+			for n in range(self.filter_width):
 				x[0, :, 0, -n - 1] = x_batch_data[0, :, 0, -self.dilation * n - 1]
 		else:
 			x = xp.empty((1, self.in_channels, self.filter_width, 1), dtype=xp.float32)
-			for n in xrange(self.filter_width):
+			for n in range(self.filter_width):
 				x[0, :, -n - 1, 0] = x_batch_data[0, :, 0, -self.dilation * n - 1]
 
 		return super(DilatedConvolution1D, self).__call__(Variable(x)).data
@@ -409,9 +409,9 @@ class WaveNet():
 			residual_conv_dilations.append(dilation)
 			dilation *= filter_width
 
-		for stack in xrange(params.residual_num_blocks):
+		for stack in range(params.residual_num_blocks):
 			residual_conv_layers = []
-			for layer_index in xrange(len(params.residual_conv_channels)):
+			for layer_index in range(len(params.residual_conv_channels)):
 				residual_layer = ResidualConvLayer()
 				n_out = params.residual_conv_channels[layer_index]
 				# filter

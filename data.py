@@ -18,16 +18,16 @@ def load_audio_file(filename, quantization_steps=256, format="16bit_pcm"):
 	# mu-law companding transformation (ITU-T, 1988)
 	mu = quantization_steps - 1
 	signal = np.sign(signal) * np.log(1 + mu * np.absolute(signal)) / np.log(1 + mu)
-	
+
 	# quantize
 	quantized_signal = (np.clip(signal * 0.5 + 0.5, 0, 1) * mu).astype(np.int32)
 
 	# remove silence signals
 	silence_threshold = 1
-	for start in xrange(quantized_signal.size):
+	for start in range(quantized_signal.size):
 		if abs(quantized_signal[start] - 127) > silence_threshold:
 			break
-	for end in xrange(1, quantized_signal.size):
+	for end in range(1, quantized_signal.size):
 		if abs(quantized_signal[-end] - 127) > silence_threshold:
 			break
 	quantized_signal = quantized_signal[start:-end]
@@ -52,7 +52,7 @@ def save_audio_file(filename, quantized_signal, quantization_steps=256, format="
 		max = 1<<8 - 1
 		type = np.uint8
 	signals_1d *= max
-	
+
 	audio = signals_1d.reshape((-1, 1)).astype(type)
 	audio = np.repeat(audio, 2, axis=1)
 	wavfile.write(filename, sampling_rate, audio)
