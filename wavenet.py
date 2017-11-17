@@ -124,13 +124,13 @@ class Params():
 		self.residual_conv_channels = [32, 32, 32, 32, 32, 32, 32, 32, 32]
 		# e.g.
 		# residual_conv_channels = [16, 16] and residual_num_blocks = 3
-		# 
+		#
 		#                                #1                      #2                      #3
 		#                        dilation 1, 2, ...      dilation 1, 2, ...      dilation 1, 2, ...
 		# causal conv output -> {conv 16 -> conv 16} -> {conv 16 -> conv 16} -> {conv 16 -> conv 16} -> output (it will be ignored)
 		#                           |          |            |          |            |          |
 		#                           +----------+------------+----------+------------+----------+-> skip connection -> softmax
-		# 
+		#
 
 		# deeper network and wider receptive field
 		self.residual_num_blocks = 2
@@ -160,7 +160,7 @@ class Params():
 		return dict
 
 	def dump(self):
-		print "params:"
+		print( "params:")
 		for attr, value in self.__dict__.iteritems():
 			print "	{}: {}".format(attr, value)
 
@@ -180,7 +180,7 @@ def sum_sqnorm(arr):
 			s = x.dot(x)
 			sq_sum[int(dev)] += s
 	return sum([float(i) for i in six.itervalues(sq_sum)])
-	
+
 class GradientClipping(object):
 	name = "GradientClipping"
 
@@ -389,7 +389,7 @@ class WaveNet():
 		channels += zip(params.causal_conv_channels[:-1], params.causal_conv_channels[1:])
 
 		for layer_index, (n_in, n_out) in enumerate(channels):
-			layer = DilatedConvolution1D(n_in, n_out, ksize, 
+			layer = DilatedConvolution1D(n_in, n_out, ksize,
 					filter_width=filter_width,
 					dilation=1,
 					nobias=nobias)
@@ -424,13 +424,13 @@ class WaveNet():
 					shape_w = (n_out, n_in, filter_width, 1)
 
 				# filter
-				residual_layer.wf = DilatedConvolution1D(n_in, n_out, ksize, 
+				residual_layer.wf = DilatedConvolution1D(n_in, n_out, ksize,
 					filter_width=filter_width,
 					dilation=filter_width ** layer_index,
 					nobias=nobias_dilation)
 
 				# gate
-				residual_layer.wg = DilatedConvolution1D(n_in, n_out, ksize, 
+				residual_layer.wg = DilatedConvolution1D(n_in, n_out, ksize,
 					filter_width=filter_width,
 					dilation=filter_width ** layer_index,
 					nobias=nobias_dilation)
@@ -456,18 +456,18 @@ class WaveNet():
 
 	def setup_optimizer(self):
 		params = self.params
-		
+
 		# add all links
 		for i, link in enumerate(self.causal_conv_layers):
 			self.chain.add_link("causal_{}".format(i), link)
-		
+
 		for j, block in enumerate(self.residual_blocks):
 			for i, layer in enumerate(block):
 				self.chain.add_link("residual_{}_block_{}_wf".format(j, i), layer.wf)
 				self.chain.add_link("residual_{}_block_{}_wg".format(j, i), layer.wg)
 				self.chain.add_link("residual_{}_block_{}_projection_block".format(j, i), layer.projection_block)
 				self.chain.add_link("residual_{}_block_{}_projection_softmax".format(j, i), layer.projection_softmax)
-		
+
 		for i, link in enumerate(self.softmax_conv_layers):
 			self.chain.add_link("softmax_{}".format(i), link)
 

@@ -46,7 +46,7 @@ def generate_audio(sampling_rate=48000, generate_sec=1, remove_silence_frames=Fa
 			sys.stdout.write("\rgenerating {:.2f} msec / {:.2f} msec".format(time_step * 1000.0 / sampling_rate, generate_sec * 1000.0))
 			sys.stdout.flush()
 
-	print "\ndone in {:.3f} sec".format(time.time() - start_time)
+	print( "\ndone in {:.3f} sec".format(time.time() - start_time))
 
 	# remove zero paddings
 	generated_quantized_audio = generated_quantized_audio[input_width:]

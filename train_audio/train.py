@@ -22,7 +22,7 @@ def create_batch(signal, batch_size, input_width, target_width):
 	return input_batch, target_batch
 
 def train_audio(
-		filename, 
+		filename,
 		batch_size=16,
 		train_width=16,
 		repeat=1000,
@@ -99,7 +99,7 @@ def main():
 	for fn in fs:
  		# filter out non-wav files
  		if fn.endswith('.wav'):
- 			print "loading", fn
+ 			print( "loading", fn)
  			files.append(fn)
 
 	# compute receptive field width
@@ -107,20 +107,20 @@ def main():
 	receptive_width_per_unit = params.residual_conv_filter_width ** num_layers
 	receptive_width = (receptive_width_per_unit - 1) * params.residual_num_blocks + 1
 	receptive_msec = int(receptive_width * 1000.0 / params.sampling_rate)
-	print "receptive field width:", receptive_msec, "[millisecond]"
-	print "receptive field width:", receptive_width, "[step]"
+	print( "receptive field width:", receptive_msec, "[millisecond]")
+	print( "receptive field width:", receptive_width, "[step]")
 
 	batch_size = 16
 	train_width = 500
 	max_epoch = 2000
 	start_time = time.time()
-	print "files: {} batch_size: {} train_width: {}".format(len(files), batch_size, train_width)
+	print( "files: {} batch_size: {} train_width: {}".format(len(files), batch_size, train_width))
 
 	for epoch in xrange(1, max_epoch):
 		average_loss = 0
 		for i, filename in enumerate(files):
 			# train
-			loss = train_audio(filename, 
+			loss = train_audio(filename,
 				batch_size=batch_size,
 				train_width=train_width,
 				repeat=500

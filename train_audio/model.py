@@ -12,7 +12,7 @@ except:
 	pass
 filename = args.model_dir + "/wavenet.json"
 if os.path.isfile(filename):
-	print "loading", filename
+	print( "loading", filename)
 	f = open(filename)
 	try:
 		dict = json.load(f)
@@ -41,7 +41,7 @@ else:
 	params.momentum = 0.9
 	params.weight_decay = 0
 	params.gradient_clipping = 1.0
-	
+
 	with open(filename, "w") as f:
 		json.dump(params.to_dict(), f, indent=4)
 
