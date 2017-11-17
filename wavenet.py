@@ -162,7 +162,7 @@ class Params():
 	def dump(self):
 		print( "params:")
 		for attr, value in self.__dict__.iteritems():
-			print "	{}: {}".format(attr, value)
+			print( "	{}: {}".format(attr, value))
 
 	def check(self):
 		base = Params()
