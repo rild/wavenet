@@ -149,24 +149,24 @@ class Params():
 			self.from_dict(dict)
 
 	def from_dict(self, dict):
-		for attr, value in dict.iteritems():
+		for attr, value in dict.items():
 			if hasattr(self, attr):
 				setattr(self, attr, value)
 
 	def to_dict(self):
 		dict = {}
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			dict[attr] = value
 		return dict
 
 	def dump(self):
 		print( "params:")
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			print( "	{}: {}".format(attr, value))
 
 	def check(self):
 		base = Params()
-		for attr, value in self.__dict__.iteritems():
+		for attr, value in self.__dict__.items():
 			if not hasattr(base, attr):
 				raise Exception("invalid parameter '{}'".format(attr))
 		if self.quantization_steps != self.softmax_conv_channels[-1]:
